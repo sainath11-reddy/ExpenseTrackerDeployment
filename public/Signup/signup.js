@@ -1,10 +1,11 @@
 const form = document.querySelector('form');
-const name = document.getElementById('name');
-const email = document.getElementById('email');
-const password = document.getElementById('password');
+
 
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
+    let  name = document.getElementById('name');
+    let email = document.getElementById('email');
+    let password = document.getElementById('password');
     if(name.value=='' || email.value =='' || password.value==''){
         alert("Fill all the elements")
     }
@@ -12,9 +13,13 @@ form.addEventListener('submit',(e)=>{
         const obj = {
             "name":name.value,
             "email":email.value,
-            "phoneNumber":password.value
+            "password":password.value
         }
-        axios.post('http://localhost:5000/signin',obj);
-
+        console.log(name.value, email.value, password.value);
+        axios.post('http://localhost:5000/users/signup',obj).then(res =>{
+            console.log(res);
+        }).catch(err =>{
+            form.innerHTML+="<p>Error: Request failed with status code 403<p>";
+        });
     }
 })
