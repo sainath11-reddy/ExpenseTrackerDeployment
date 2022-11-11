@@ -6,19 +6,22 @@ const p=document.querySelector('body p')
 form.addEventListener('submit', (e)=>{
     e.preventDefault();
     let obj = {
-        "email":email,
-        "password":password
+        "email":email.value,
+        "password":password.value
     };
-    axios.post("http://localhost:5000/users/signup",obj).then(res =>{
+    axios.post("http://localhost:5000/users/login",obj).then(res =>{
         if(res.data == "Success"){
-            p.innerHTML=''
+            p.innerHTML='';
             alert('User logged in Successfully');
         }
-        if(res.data == "Password Incorrect"){
+        
+    }).catch(err => {
+        if(err.response.status == 401){
             p.innerHTML="Error: Check your Password"
         }
         else{
             p.innerHTML="Error: Email id not found"
         }
-    }).catch(err => console.log(err));
+    }
+        );
 })

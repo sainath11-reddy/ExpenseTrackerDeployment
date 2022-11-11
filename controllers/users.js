@@ -15,3 +15,21 @@ exports.postSignupDetails = (req,res,next)=>{
     })
     
 }
+
+exports.postLoginDetails =async (req,res,next)=>{
+    const email=req.body.email;
+    const password = req.body.password;
+    const user = await User.findOne({where:{email:email}});
+    if(user){
+        if(user.password == password){
+            res.send("Success");
+        }
+        else{
+            res.sendStatus(401);
+        }
+        
+    }
+    else{
+        res.sendStatus(404);
+    }
+}
