@@ -18,6 +18,7 @@ form.addEventListener('submit',(e)=>{
         console.log(name.value, email.value, password.value);
         axios.post('http://localhost:5000/users/signup',obj).then(res =>{
             console.log(res);
+            window.location.href = "../Login/login.html"
         }).catch(err =>{
             form.innerHTML+="<p>Error: Request failed with status code 403<p>";
         });

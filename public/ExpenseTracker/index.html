@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="#">
+        <label for="expenseAmt">Choose Expense Amount:</label>
+        <input type="text" name="expenseAmt" id="expenseAmt">
+        <label for="desc">Choose Description</label>
+        <input type="text" name="desc" id="desc">
+        <label for="category">Choose a Category</label>
+        <select name="category" id="category">
+            <option value="fuel">fuel</option>
+            <option value="Movies">Movies</option>
+            <option value="Restaurant">Restaurant</option>
+            <option value="Online Shopping">Online Shopping</option>
+        </select>
+        <input type="submit" value="Add Expense">
+    </form>
+    <ul id="ExpenseList">
+    </ul>
+    <script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+</body>
+</html>

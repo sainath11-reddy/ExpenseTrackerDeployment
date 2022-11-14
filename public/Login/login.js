@@ -13,6 +13,7 @@ form.addEventListener('submit', (e)=>{
         if(res.status == 200){
             p.innerHTML='';
             alert('User logged in Successfully');
+            window.location.href = '../ExpenseTracker/index.html'
         }
         
     }).catch(err => {
