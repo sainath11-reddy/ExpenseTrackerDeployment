@@ -10,7 +10,7 @@ form.addEventListener('submit', (e)=>{
         "password":password.value
     };
     axios.post("http://localhost:5000/users/login",obj).then(res =>{
-        if(res.data == "Success"){
+        if(res.status == 200){
             p.innerHTML='';
             alert('User logged in Successfully');
         }
