@@ -13,6 +13,7 @@ form.addEventListener('submit', (e)=>{
         if(res.status == 200){
             p.innerHTML='';
             alert('User logged in Successfully');
+            localStorage.setItem('token', res.data.token);
             window.location.href = '../ExpenseTracker/index.html'
         }
         

@@ -1,6 +1,6 @@
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 exports.postSignupDetails = (req,res,next)=>{
     console.log(req.body);
     bcrypt.hash(req.body.password,10, (err, hash)=>{
@@ -26,6 +26,9 @@ exports.postSignupDetails = (req,res,next)=>{
     
     
 }
+function generateAccessToken(user){
+    return jwt.sign({userId:user.id, name:user.name}, "secretKey");
+}
 
 exports.postLoginDetails =async (req,res,next)=>{
     const email=req.body.email;
@@ -37,7 +40,7 @@ exports.postLoginDetails =async (req,res,next)=>{
                 res.status(500).json({message:err, success:false})
             }
             if(result == true){
-                res.status(200).json({success:true, message:"User logged in Successfully"});
+                res.status(200).json({success:true, message:"User logged in Successfully", token:generateAccessToken(user)});
             }
             else{
                 res.status(401).json({success:false, message:"Password is incorrect"});
