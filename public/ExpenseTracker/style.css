@@ -1,0 +1,8 @@
+body.dark {
+    background-color: #1f1f1f;
+    color: white;
+}
+body.dark label {
+    background-color: #1f1f1f;;
+    color: white;
+}

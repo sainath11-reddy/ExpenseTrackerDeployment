@@ -22,7 +22,7 @@ exports.postDeleteExpense = (req,res,next)=>{
     expenses.findByPk(req.body.id).then(expense =>{
         return expense.destroy()
     }).then(result =>{
-        console.log(result);
+        // console.log(result);
         res.sendStatus(200);
     }).catch(err => console.log(err));
 }

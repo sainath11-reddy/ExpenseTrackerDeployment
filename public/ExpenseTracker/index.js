@@ -1,5 +1,6 @@
 const form = document.querySelector('form');
 const ul = document.getElementById('ExpenseList');
+const premiumButton = document.querySelector('.premium-btn')
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
     const obj = {
@@ -27,6 +28,9 @@ function addElement(obj){
 
 document.addEventListener('DOMContentLoaded',(e)=>{
     e.preventDefault();
+    if(localStorage.getItem('premium') == "true"){
+        document.body.classList.add("dark");
+    }
     axios.get('http://localhost:5000/expenses/get-expenses',{headers:{"Authorization":localStorage.getItem("token")}}).then(result =>{
         for(let i of result.data.expenses){
             addElement(i);
@@ -43,4 +47,38 @@ ul.addEventListener('click', (e)=>{
         })
         
     }
+})
+
+premiumButton.addEventListener('click',(e)=>{
+    e.preventDefault();
+    axios.post("http://localhost:5000/api/payment/order", {"amount": 50000,"currency": "INR","receipt": "order_rcptid_11"},{headers:{"Authorization":localStorage.getItem("token")}}).then(res =>{
+        let order_id = res.data.sub.id;
+        var options ={
+            "key":"rzp_test_JNAScYuEsFdKAs",
+            "currency":"INR",
+            "name":"Premium Membership",
+            "description":"Razor Test Transaction",
+            "order_id":order_id,
+            "handler": function(response){
+                axios.post("http://localhost:5000/api/payment/verify",{
+                    "paymentId":response.razorpay_payment_id,
+                    "orderId":response.razorpay_order_id,
+                    "orderSig":response.razorpay_signature
+                },{headers:{"Authorization":localStorage.getItem("token")}}).then(suc =>{
+                    if(suc.data.status === "success"){
+                        alert("Payment successfull");
+                        localStorage.setItem('premium', true);
+                    document.body.classList.add("dark");
+                    }
+                    
+                    else
+                    alert("Payment not verified");
+                }).catch(err => console.log(err))
+            }
+        
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+        e.preventDefault();
+    })
 })
