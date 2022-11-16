@@ -1,7 +1,8 @@
 const form = document.getElementById('login');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
-const p=document.querySelector('body p')
+const p=document.querySelector('body p');
+const forgotPasswordButton = document.querySelector('.forgot-password-btn');
 
 form.addEventListener('submit', (e)=>{
     e.preventDefault();
@@ -27,3 +28,9 @@ form.addEventListener('submit', (e)=>{
     }
         );
 })
+
+forgotPasswordButton.addEventListener('click',(e)=>{
+    e.preventDefault();
+    window.location.href="../ForgotPassword/index.html";
+})
+
