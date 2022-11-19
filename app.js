@@ -5,21 +5,22 @@ dotenv.config();
 let cors = require('cors');
 const bodyParser = require('body-parser');
 let app = express();
+
 let Sequelize = require('./util/database');
 let userRoutes = require('./routes/users');
 let payementRoutes = require('./routes/payments');
 let expenseRoutes = require('./routes/expenses');
 let expense = require('./models/expenses');
 let user = require('./models/users');
+let passwordRoutes = require('./routes/password');
 const orderId = require('./models/orderId');
-
 
 
 
 app.use(cors());
 app.use(bodyParser.json({extended:false}));
 app.use('/api/payment',payementRoutes);
-
+app.use('/password',passwordRoutes);
 app.use('/users',userRoutes);
 app.use('/expenses',expenseRoutes);
 user.hasMany(expense);
