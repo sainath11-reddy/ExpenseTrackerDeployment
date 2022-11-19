@@ -14,7 +14,7 @@ let expense = require('./models/expenses');
 let user = require('./models/users');
 let passwordRoutes = require('./routes/password');
 const orderId = require('./models/orderId');
-
+let passwordModel = require('./models/ForgotPasswordsRequests');
 
 
 app.use(cors());
@@ -27,6 +27,8 @@ user.hasMany(expense);
 expense.belongsTo(user);
 user.hasMany(orderId);
 orderId.belongsTo(user);
+passwordModel.belongsTo(user);
+user.hasMany(passwordModel);
 Sequelize.sync().then(res =>{
     console.log("Server Synced");
     app.listen(5000);
