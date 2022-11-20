@@ -14,6 +14,10 @@ form.addEventListener('submit',(e)=>{
     })
 })
 
+function showError(err){
+    document.body.innerHTML += `<div style="color:red;"> ${err}</div>`
+}
+
 function addElement(obj){
     const str = obj.expenseAmt+" - "+obj.desc+" - "+obj.category+' ';
     const btn = document.createElement('button');
@@ -49,6 +53,23 @@ ul.addEventListener('click', (e)=>{
     }
 })
 
+function download(e){
+    axios.get('http://localhost:5000/expenses/download',{headers:{"Authorization":localStorage.getItem("token")}})
+    .then(response => {
+        if(response.status === 201){
+            var a = document.createElement('a');
+            a.href=response.data.fileURl;
+            a.download='myexpense.csv';
+            a.click();
+        }
+        else{
+            throw new Error(response.data.message)
+        }
+        
+    }).catch(err =>{
+        showError(err);
+    })
+}
 premiumButton.addEventListener('click',(e)=>{
     e.preventDefault();
     axios.post("http://localhost:5000/api/payment/order", {"amount": 50000,"currency": "INR","receipt": "order_rcptid_11"},{headers:{"Authorization":localStorage.getItem("token")}}).then(res =>{
