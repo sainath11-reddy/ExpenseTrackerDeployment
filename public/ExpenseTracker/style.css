@@ -6,3 +6,7 @@ body.dark label {
     background-color: #1f1f1f;;
     color: white;
 }
+.current{
+    background-color: #1f1f1f;
+    color:wheat;
+}

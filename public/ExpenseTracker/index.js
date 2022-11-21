@@ -1,6 +1,10 @@
 const form = document.querySelector('form');
 const ul = document.getElementById('ExpenseList');
-const premiumButton = document.querySelector('.premium-btn')
+const premiumButton = document.querySelector('.premium-btn');
+let pageButtonDOM = document.querySelector('.page-btn-section');
+let currentPage = document.querySelector('.page-btn-section .current')
+let page;
+console.log()
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
     const obj = {
@@ -10,7 +14,8 @@ form.addEventListener('submit',(e)=>{
     }
     axios.post('http://localhost:5000/expenses/add-expense',obj,{headers:{"Authorization":localStorage.getItem("token")}}).then(result =>{
         // console.log(result);
-        addElement(result.data);
+        // addElement(result.data);
+        location.reload();
     })
 })
 
@@ -29,18 +34,44 @@ function addElement(obj){
     li.appendChild(btn);
     ul.appendChild(li);
 }
-
-document.addEventListener('DOMContentLoaded',(e)=>{
-    e.preventDefault();
+function IndexPage(currentPageNumber){
     
-    axios.get('http://localhost:5000/expenses/get-expenses',{headers:{"Authorization":localStorage.getItem("token")}}).then(result =>{
-        if(result.data.premiumUser == true){
+    let pageButtons = '';
+    axios.get(`http://localhost:5000/expenses/get-expenses?page=${currentPageNumber}`,{headers:{"Authorization":localStorage.getItem("token")}}).then(result =>{
+    // console.log(result.data);
+    // let page = parseInt(result.data.page) || 1;
+    
+    if(result.data.premiumUser == true){
             document.body.classList.add("dark");
         }
-        for(let i of result.data.expenses){
+    ul.innerHTML = ''; 
+    for(let i of result.data.expenses){
             addElement(i);
-        }
+    }
+    if(result.data.previousPage){
+        pageButtons= `<button class='page-btn'>${currentPageNumber-1}</button>`;
+    }
+    pageButtons +=`<button class='page-btn current'>${currentPageNumber}</button>`;
+    if(result.data.nextPage){
+        pageButtons += `<button class='page-btn'>${+currentPageNumber+1}</button>`;
+    }
+    pageButtonDOM.innerHTML=pageButtons;
+    page=currentPageNumber;
     })
+}
+document.addEventListener('DOMContentLoaded',(e)=>{
+    
+    console.log();
+    IndexPage(localStorage.getItem('pageNumber'));
+    e.preventDefault();
+})
+
+
+pageButtonDOM.addEventListener('click', (e)=>{
+    if(e.target.classList.contains('page-btn')){
+        localStorage.setItem('pageNumber',e.target.textContent);
+        IndexPage(e.target.textContent);
+    }
 })
 
 ul.addEventListener('click', (e)=>{

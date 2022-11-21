@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const AWS = require('aws-sdk');
 const fileURls = require('../models/fileURls');
 // const { captureRejectionSymbol } = require('mysql2/typings/mysql/lib/Connection');
+const ITEMS_PER_PAGE = 4;
+
 
 exports.postExpense = (req, res, next)=>{
     expenses.create({
@@ -15,10 +17,13 @@ exports.postExpense = (req, res, next)=>{
     }).catch(err => console.log(err));
 }
 
-exports.getExpenses = (req, res, next)=>{
-    
-    expenses.findAll({where:{userId:req.user.id}}).then(expenses =>{
-        res.json({expenses,premiumUser:req.user.premiumUser, success:true})
+exports.getExpenses = async (req, res, next)=>{
+    let pageNumber = parseInt(req.query.page);
+    console.log(pageNumber)
+    let total_items = await expenses.count({where:{userId:req.user.id}});
+    console.log(total_items);
+    expenses.findAll({offset:(pageNumber-1)*ITEMS_PER_PAGE, limit:ITEMS_PER_PAGE,where:{userId:req.user.id} }).then(expenses =>{
+        res.json({expenses,premiumUser:req.user.premiumUser, success:true, nextPage:total_items>(ITEMS_PER_PAGE*pageNumber), previousPage:pageNumber>1, page:pageNumber})
     }).catch(err => console.log(err))
 }
 
