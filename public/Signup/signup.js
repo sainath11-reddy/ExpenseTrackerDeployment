@@ -13,7 +13,8 @@ form.addEventListener('submit',(e)=>{
         const obj = {
             "name":name.value,
             "email":email.value,
-            "password":password.value
+            "password":password.value,
+            "premiumUser":false
         }
         console.log(name.value, email.value, password.value);
         axios.post('http://localhost:5000/users/signup',obj).then(res =>{

@@ -32,10 +32,11 @@ function addElement(obj){
 
 document.addEventListener('DOMContentLoaded',(e)=>{
     e.preventDefault();
-    if(localStorage.getItem('premium') == "true"){
-        document.body.classList.add("dark");
-    }
+    
     axios.get('http://localhost:5000/expenses/get-expenses',{headers:{"Authorization":localStorage.getItem("token")}}).then(result =>{
+        if(result.data.premiumUser == true){
+            document.body.classList.add("dark");
+        }
         for(let i of result.data.expenses){
             addElement(i);
         }
@@ -54,6 +55,7 @@ ul.addEventListener('click', (e)=>{
 })
 
 function download(e){
+    
     axios.get('http://localhost:5000/expenses/download',{headers:{"Authorization":localStorage.getItem("token")}})
     .then(response => {
         if(response.status === 201){
@@ -67,7 +69,8 @@ function download(e){
         }
         
     }).catch(err =>{
-        showError(err);
+        console.log(err);
+        showError(err.response.data.message);
     })
 }
 premiumButton.addEventListener('click',(e)=>{

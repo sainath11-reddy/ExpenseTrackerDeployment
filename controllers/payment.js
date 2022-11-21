@@ -28,7 +28,10 @@ exports.verifyOrder = (req,res,next)=>{
         orderId.create({
             orderId:req.body.orderId,
             userId:req.user.id
-        })
+        }).then(result =>{
+            return req.user.update({premiumUser:true});
+        }).then(result => console.log("User table updated"))
+        
     }
     
     res.json(response);

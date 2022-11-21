@@ -8,7 +8,8 @@ exports.postSignupDetails = (req,res,next)=>{
             User.create({
                 name:req.body.name,
                 email:req.body.email,
-                password:hash
+                password:hash,
+                premiumUser:false
             }).then(resolve=>{
                 console.log('Signup details added');
                 res.send("Success");
