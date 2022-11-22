@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const AWS = require('aws-sdk');
 const fileURls = require('../models/fileURls');
 // const { captureRejectionSymbol } = require('mysql2/typings/mysql/lib/Connection');
-const ITEMS_PER_PAGE = 4;
+let ITEMS_PER_PAGE = 5;
 
 
 exports.postExpense = (req, res, next)=>{
@@ -19,6 +19,7 @@ exports.postExpense = (req, res, next)=>{
 
 exports.getExpenses = async (req, res, next)=>{
     let pageNumber = parseInt(req.query.page);
+    ITEMS_PER_PAGE = parseInt(req.header('RowsPerPage')) || 5;
     console.log(pageNumber)
     let total_items = await expenses.count({where:{userId:req.user.id}});
     console.log(total_items);

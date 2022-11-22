@@ -2,9 +2,10 @@ const form = document.querySelector('form');
 const ul = document.getElementById('ExpenseList');
 const premiumButton = document.querySelector('.premium-btn');
 let pageButtonDOM = document.querySelector('.page-btn-section');
-let currentPage = document.querySelector('.page-btn-section .current')
-let page;
-console.log()
+let currentPage = document.querySelector('.page-btn-section .current');
+let RowsPerPage = document.querySelector('#rowsPerPage');
+// let page;
+console.log(RowsPerPage.value)
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
     const obj = {
@@ -35,9 +36,9 @@ function addElement(obj){
     ul.appendChild(li);
 }
 function IndexPage(currentPageNumber){
-    
+    RowsPerPage.value = localStorage.getItem('RowsPerPage');
     let pageButtons = '';
-    axios.get(`http://localhost:5000/expenses/get-expenses?page=${currentPageNumber}`,{headers:{"Authorization":localStorage.getItem("token")}}).then(result =>{
+    axios.get(`http://localhost:5000/expenses/get-expenses?page=${currentPageNumber}`,{headers:{"Authorization":localStorage.getItem("token"), "RowsPerPage":localStorage.getItem('RowsPerPage')}}).then(result =>{
     // console.log(result.data);
     // let page = parseInt(result.data.page) || 1;
     
@@ -136,4 +137,10 @@ premiumButton.addEventListener('click',(e)=>{
         rzp1.open();
         e.preventDefault();
     })
+})
+
+RowsPerPage.addEventListener('change', (e)=>{
+    e.preventDefault();
+    localStorage.setItem('RowsPerPage',RowsPerPage.value);
+    IndexPage(localStorage.getItem('pageNumber'));
 })
