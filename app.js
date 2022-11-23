@@ -1,11 +1,16 @@
 let express = require('express');
 let dotenv = require('dotenv');
 dotenv.config();
-
+const https = require('https')
 let cors = require('cors');
 const bodyParser = require('body-parser');
+const helmet =require('helmet');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
 let app = express();
-
+const privateKey = fs.readFileSync('server.key');
+const certificate = fs.readFileSync('server.cert');
 let Sequelize = require('./util/database');
 let userRoutes = require('./routes/users');
 let payementRoutes = require('./routes/payments');
@@ -17,7 +22,12 @@ const orderId = require('./models/orderId');
 let passwordModel = require('./models/ForgotPasswordsRequests');
 let fileURls = require('./models/fileURls');
 
+const accessLogStream = fs.WriteStream(path.join(__dirname, 'access.log'), {flags:'a'});
 
+
+
+app.use(helmet());
+app.use(morgan('combined',{stream:accessLogStream}) );
 app.use(cors());
 app.use(bodyParser.json({extended:false}));
 app.use('/api/payment',payementRoutes);
@@ -34,6 +44,7 @@ fileURls.belongsTo(user);
 user.hasMany(fileURls);
 Sequelize.sync().then(res =>{
     console.log("Server Synced");
+    // https.createServer({key:privateKey, cert:certificate}, app).listen(5000);
     app.listen(5000);
 }).catch(err => console.log(err));
 

@@ -3,8 +3,8 @@ let Razorpay = require('razorpay');
 
 const crypto = require("crypto");
 let instance = new Razorpay({
-    key_id:'rzp_test_JNAScYuEsFdKAs',
-    key_secret:'Duj55WuvBNGAVDvV2vcoUzE4'
+    key_id:process.env.RAZORPAY_KEY_ID,
+    key_secret:process.env.RAZORPAY_KEY_SECRET
 })
 exports.createOrder = (req, res, next)=>{
     instance.orders.create(req.body).then(data =>{
