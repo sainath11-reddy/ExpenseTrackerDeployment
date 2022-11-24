@@ -3,7 +3,7 @@ const Para = document.querySelector('p');
 forgotPasswordForm.addEventListener('submit', (e)=>{
     e.preventDefault();
     
-    axios.post('http://localhost:5000/password/forgotpassword', {"email":forgotPasswordForm.email.value})
+    axios.post('http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/password/forgotpassword', {"email":forgotPasswordForm.email.value})
     .then(result =>{
         console.log(result)
         if(result.status == 200){

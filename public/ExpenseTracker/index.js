@@ -13,7 +13,7 @@ form.addEventListener('submit',(e)=>{
         "desc":form.desc.value,
         "category":form.category.value
     }
-    axios.post('http://localhost:5000/expenses/add-expense',obj,{headers:{"Authorization":localStorage.getItem("token")}}).then(result =>{
+    axios.post('http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/expenses/add-expense',obj,{headers:{"Authorization":localStorage.getItem("token")}}).then(result =>{
         // console.log(result);
         // addElement(result.data);
         location.reload();
@@ -38,7 +38,7 @@ function addElement(obj){
 function IndexPage(currentPageNumber){
     RowsPerPage.value = localStorage.getItem('RowsPerPage');
     let pageButtons = '';
-    axios.get(`http://localhost:5000/expenses/get-expenses?page=${currentPageNumber}`,{headers:{"Authorization":localStorage.getItem("token"), "RowsPerPage":localStorage.getItem('RowsPerPage')}}).then(result =>{
+    axios.get(`http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/expenses/get-expenses?page=${currentPageNumber}`,{headers:{"Authorization":localStorage.getItem("token"), "RowsPerPage":localStorage.getItem('RowsPerPage')}}).then(result =>{
     // console.log(result.data);
     // let page = parseInt(result.data.page) || 1;
     
@@ -79,7 +79,7 @@ ul.addEventListener('click', (e)=>{
     e.preventDefault();
     if(e.target.classList.contains('delete-btn')){
         const li = e.target.parentElement
-        axios.post('http://localhost:5000/expenses/delete-expense',{"id":li.id}).then(done =>{
+        axios.post('http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/expenses/delete-expense',{"id":li.id}).then(done =>{
             ul.removeChild(li);
         })
         
@@ -88,7 +88,7 @@ ul.addEventListener('click', (e)=>{
 
 function download(e){
     
-    axios.get('http://localhost:5000/expenses/download',{headers:{"Authorization":localStorage.getItem("token")}})
+    axios.get('http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/expenses/download',{headers:{"Authorization":localStorage.getItem("token")}})
     .then(response => {
         if(response.status === 201){
             var a = document.createElement('a');
@@ -107,7 +107,7 @@ function download(e){
 }
 premiumButton.addEventListener('click',(e)=>{
     e.preventDefault();
-    axios.post("http://localhost:5000/api/payment/order", {"amount": 50000,"currency": "INR","receipt": "order_rcptid_11"},{headers:{"Authorization":localStorage.getItem("token")}}).then(res =>{
+    axios.post("http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/api/payment/order", {"amount": 50000,"currency": "INR","receipt": "order_rcptid_11"},{headers:{"Authorization":localStorage.getItem("token")}}).then(res =>{
         let order_id = res.data.sub.id;
         var options ={
             "key":"rzp_test_JNAScYuEsFdKAs",
@@ -116,7 +116,7 @@ premiumButton.addEventListener('click',(e)=>{
             "description":"Razor Test Transaction",
             "order_id":order_id,
             "handler": function(response){
-                axios.post("http://localhost:5000/api/payment/verify",{
+                axios.post("http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/api/payment/verify",{
                     "paymentId":response.razorpay_payment_id,
                     "orderId":response.razorpay_order_id,
                     "orderSig":response.razorpay_signature
