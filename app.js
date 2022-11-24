@@ -9,9 +9,9 @@ const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
 let app = express();
+
 // const privateKey = fs.readFileSync('server.key');
 // const certificate = fs.readFileSync('server.cert');
-
 let Sequelize = require('./util/database');
 let userRoutes = require('./routes/users');
 let payementRoutes = require('./routes/payments');
