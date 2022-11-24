@@ -17,7 +17,7 @@ form.addEventListener('submit',(e)=>{
             "premiumUser":false
         }
         console.log(name.value, email.value, password.value);
-        axios.post('http://localhost:5000/users/signup',obj).then(res =>{
+        axios.post('http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/users/signup',obj).then(res =>{
             console.log(res);
             window.location.href = "../Login/login.html"
         }).catch(err =>{

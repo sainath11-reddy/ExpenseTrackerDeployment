@@ -10,7 +10,7 @@ form.addEventListener('submit', (e)=>{
         "email":email.value,
         "password":password.value
     };
-    axios.post("http://localhost:5000/users/login",obj).then(res =>{
+    axios.post("http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/users/login",obj).then(res =>{
         if(res.status == 200){
             p.innerHTML='';
             alert('User logged in Successfully');
