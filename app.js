@@ -27,7 +27,9 @@ const accessLogStream = fs.WriteStream(path.join(__dirname, 'access.log'), {flag
 
 
 
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false,
+  }));
 app.use(morgan('combined',{stream:accessLogStream}) );
 app.use(cors());
 app.use(bodyParser.json({extended:false}));
@@ -35,6 +37,10 @@ app.use('/api/payment',payementRoutes);
 app.use('/password',passwordRoutes);
 app.use('/users',userRoutes);
 app.use('/expenses',expenseRoutes);
+app.use((req,res)=>{
+    console.log(req.url)
+    res.sendFile(path.join(__dirname,`public/${req.url}`))
+})
 user.hasMany(expense);
 expense.belongsTo(user);
 user.hasMany(orderId);
