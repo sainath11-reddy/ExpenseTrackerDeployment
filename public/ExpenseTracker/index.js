@@ -4,6 +4,7 @@ const premiumButton = document.querySelector('.premium-btn');
 let pageButtonDOM = document.querySelector('.page-btn-section');
 let currentPage = document.querySelector('.page-btn-section .current');
 let RowsPerPage = document.querySelector('#rowsPerPage');
+localStorage.setItem('RowsPerPage', 5);
 // let page;
 console.log(RowsPerPage.value)
 form.addEventListener('submit',(e)=>{
