@@ -23,14 +23,14 @@ const orderId = require('./models/orderId');
 let passwordModel = require('./models/ForgotPasswordsRequests');
 let fileURls = require('./models/fileURls');
 
-const accessLogStream = fs.WriteStream(path.join(__dirname, 'access.log'), {flags:'a'});
+// const accessLogStream = fs.WriteStream(path.join(__dirname, 'access.log'), {flags:'a'});
 
 
 
 app.use(helmet({
     contentSecurityPolicy: false,
   }));
-app.use(morgan('combined',{stream:accessLogStream}) );
+// app.use(morgan('combined',{stream:accessLogStream}) );
 app.use(cors());
 app.use(bodyParser.json({extended:false}));
 app.use('/api/payment',payementRoutes);
@@ -51,6 +51,7 @@ fileURls.belongsTo(user);
 user.hasMany(fileURls);
 Sequelize.sync().then(res =>{
     console.log("Server Synced");
+    console.log("Req successful");
     // https.createServer({key:privateKey, cert:certificate}, app).listen(5000);
     app.listen(5000);
 }).catch(err => console.log(err));
