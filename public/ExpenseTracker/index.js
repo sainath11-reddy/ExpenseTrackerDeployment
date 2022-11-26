@@ -40,7 +40,7 @@ function addElement(obj){
 function IndexPage(currentPageNumber){
     RowsPerPage.value = localStorage.getItem('RowsPerPage');
     let pageButtons = '';
-    axios.get(`http://localhost:5000/expenses/get-expenses?page=${currentPageNumber}`,{headers:{"Authorization":localStorage.getItem("token"), "RowsPerPage":localStorage.getItem('RowsPerPage')}}).then(result =>{
+    axios.get(`http://ec2-3-112-224-27.ap-northeast-1.compute.amazonaws.com:5000/expenses/get-expenses?page=${currentPageNumber}`,{headers:{"Authorization":localStorage.getItem("token"), "RowsPerPage":localStorage.getItem('RowsPerPage')}}).then(result =>{
     // console.log(result.data);
     // let page = parseInt(result.data.page) || 1;
     
