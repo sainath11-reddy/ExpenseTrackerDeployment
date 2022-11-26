@@ -51,7 +51,7 @@ fileURls.belongsTo(user);
 user.hasMany(fileURls);
 Sequelize.sync().then(res =>{
     console.log("Server Synced");
-    console.log("Req successful");
+    
     // https.createServer({key:privateKey, cert:certificate}, app).listen(5000);
     app.listen(5000);
 }).catch(err => console.log(err));
